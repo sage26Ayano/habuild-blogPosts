@@ -1,4 +1,5 @@
-import { useEffect, useMemo } from "react";
+import { useState, useEffect, useMemo } from "react";
+import ReactPaginate from "react-paginate";
 import PostCard from "@/components/Posts/PostCard";
 import LoadingSpinner from "@/components/Layout/LoadingSpinner";
 import ErrorMessage from "@/components/Layout/ErrorMessage";
@@ -10,6 +11,9 @@ const PostsList = () => {
   const { posts, loading, error, searchTerm } = useAppSelector(
     (state) => state.posts
   );
+
+  const [itemOffset, setItemOffset] = useState(0);
+  const itemsPerPage = 15;
 
   useEffect(() => {
     if (posts.length === 0) {
@@ -26,6 +30,15 @@ const PostsList = () => {
         post.body.toLowerCase().includes(searchTerm.toLowerCase())
     );
   }, [posts, searchTerm]);
+
+  const endOffset = itemOffset + itemsPerPage;
+  const currentItems = filteredPosts.slice(itemOffset, endOffset);
+  const pageCount = Math.ceil(filteredPosts.length / itemsPerPage);
+
+  const handlePageClick = (event: { selected: number }) => {
+    const newOffset = (event.selected * itemsPerPage) % filteredPosts.length;
+    setItemOffset(newOffset);
+  };
 
   const handleRetry = () => {
     dispatch(clearError());
@@ -73,13 +86,36 @@ const PostsList = () => {
           <p className="text-muted-foreground">No posts available.</p>
         </div>
       ) : (
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {filteredPosts.map((post, index) => (
-            <div key={post.id}>
-              <PostCard post={post} />
+        <>
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            {currentItems.map((post) => (
+              <div key={post.id}>
+                <PostCard post={post} />
+              </div>
+            ))}
+          </div>
+
+          {pageCount > 1 && (
+            <div className="flex justify-center mt-8">
+              <ReactPaginate
+                breakLabel="..."
+                nextLabel="Next"
+                previousLabel="Prev"
+                onPageChange={handlePageClick}
+                pageRangeDisplayed={2}
+                marginPagesDisplayed={1}
+                pageCount={pageCount}
+                renderOnZeroPageCount={null}
+                containerClassName="flex items-center space-x-2"
+                pageClassName="px-3 py-1 border rounded"
+                activeClassName="bg-blue-500 text-white"
+                previousClassName="px-3 py-1 border rounded"
+                nextClassName="px-3 py-1 border rounded"
+                disabledClassName="opacity-50 cursor-not-allowed"
+              />
             </div>
-          ))}
-        </div>
+          )}
+        </>
       )}
     </div>
   );
