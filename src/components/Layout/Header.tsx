@@ -16,7 +16,7 @@ const Header = () => {
         <div className="flex items-center justify-between">
           <Link to="/" className="">
             <img
-              src="/habuild-logo.webp"
+              src="habuild-logo.webp"
               alt="Habuild Logo"
               className="h-10 w-auto hover:bg-gray-100/50"
             />

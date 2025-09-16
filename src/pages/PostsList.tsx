@@ -45,7 +45,7 @@ const PostsList = () => {
       <div className="mb-12 flex flex-col">
         <div className="mx-auto mb-6">
           <img
-            src="/saurabh-banner-desktop.webp"
+            src="saurabh-banner-desktop.webp"
             alt="saurabh-banner"
             className="h-[250px]"
           />

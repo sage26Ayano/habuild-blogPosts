@@ -1,6 +1,6 @@
 import { Provider } from "react-redux";
 import { Toaster } from "@/components/ui/sonner";
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { HashRouter, Routes, Route } from "react-router-dom";
 import { store } from "./store";
 import Header from "@/components/Layout/Header";
 import PostsList from "@/pages/PostsList";
@@ -10,7 +10,7 @@ import NotFound from "@/pages/NotFound";
 const App = () => (
   <Provider store={store}>
     <Toaster />
-    <BrowserRouter>
+    <HashRouter>
       <div className="min-h-screen bg-background">
         <Header />
         <main>
@@ -21,7 +21,7 @@ const App = () => (
           </Routes>
         </main>
       </div>
-    </BrowserRouter>
+    </HashRouter>
   </Provider>
 );
 
