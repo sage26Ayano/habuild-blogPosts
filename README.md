@@ -17,5 +17,7 @@ npm i
 npm run dev
 ```
 
+## If API is not working
 
+Use mobile data, if API is not working, because sometimes Wifi blocks that api, it was happening with me.
 
